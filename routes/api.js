@@ -106,10 +106,13 @@ Schema:
             { value: string, sign: boolean },
             { value: string, sign: boolean }
         ]
-
     number-question:
         {
             value: number
+        }
+    word-question:
+        {
+            value: string
         }
 */
 function calculateAssignmentMark(assignmentAnswer, correctAnswer) {
@@ -179,7 +182,7 @@ function calculateAssignmentMark(assignmentAnswer, correctAnswer) {
             console.log(`Assignment #${assignmentAnswer._id} didn't pass validation`);
             return -1;
         }
-        return correctAnswer.answer.value === assignmentAnswer.answer.value ? 1.0 : 0.0;
+        return correctAnswer.answer.value.toLowerCase() === assignmentAnswer.answer.value.toLowerCase() ? 1.0 : 0.0;
             
         default:
             console.log(`Unknown question type '${correctAnswer.type}'`);
