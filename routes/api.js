@@ -106,6 +106,11 @@ Schema:
             { value: string, sign: boolean },
             { value: string, sign: boolean }
         ]
+
+    number-question:
+        {
+            value: number
+        }
 */
 function calculateAssignmentMark(assignmentAnswer, correctAnswer) {
     switch (correctAnswer.type) {
@@ -162,6 +167,13 @@ function calculateAssignmentMark(assignmentAnswer, correctAnswer) {
             const mark = (trueSelected / trueTotal) * (1 - (falseSelected / falseTotal));
             return mark;
 
+        case 'number-question':
+            if (!numberQuestionValidator(assignmentAnswer)) {
+                console.log(`Assignment #${assignmentAnswer._id} didn't pass validation`);
+                return -1;
+            }
+            return correctAnswer.answer.value === assignmentAnswer.answer.value ? 1.0 : 0.0;
+            
         default:
             console.log(`Unknown question type '${correctAnswer.type}'`);
             return -1
@@ -215,6 +227,14 @@ function nFromFourQuestionValidator(answer) {
     });
 
     return true;
+}
+function numberQuestionValidator(answer) {
+    if (answer.answer.hasOwnProperty('value')) {
+        if (typeof(answer.answer.value) === 'number') {
+            return true;
+        }
+    }
+    return false;
 }
 
 module.exports = router;

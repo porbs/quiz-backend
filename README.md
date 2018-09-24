@@ -65,6 +65,18 @@ Backend for Quiz app
             ]
         }
         ```
+    * number question type
+        ```json
+        {
+            "type": "number-question",
+            "question": {
+                "value": "8 800 555 35 3*"
+            },
+            "answer": {
+                "value": 5
+            }
+        }
+        ```
 * **GET** all tasks (documents without answers)
     ```
     GET <server uri>/api/tasks
