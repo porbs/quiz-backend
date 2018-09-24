@@ -77,6 +77,18 @@ Backend for Quiz app
             }
         }
         ```
+    * word question type
+        ```json
+        {
+            "type": "word-question",
+            "question": {
+                "value": "Hello darkness, my old ..."
+            },
+            "answer": {
+                "value": "friend"
+            }
+        }
+        ```
 * **GET** all tasks (documents without answers)
     ```
     GET <server uri>/api/tasks

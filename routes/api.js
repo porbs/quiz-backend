@@ -173,6 +173,13 @@ function calculateAssignmentMark(assignmentAnswer, correctAnswer) {
                 return -1;
             }
             return correctAnswer.answer.value === assignmentAnswer.answer.value ? 1.0 : 0.0;
+
+        case 'word-question':
+        if (!numberQuestionValidator(assignmentAnswer)) {
+            console.log(`Assignment #${assignmentAnswer._id} didn't pass validation`);
+            return -1;
+        }
+        return correctAnswer.answer.value === assignmentAnswer.answer.value ? 1.0 : 0.0;
             
         default:
             console.log(`Unknown question type '${correctAnswer.type}'`);
@@ -236,5 +243,12 @@ function numberQuestionValidator(answer) {
     }
     return false;
 }
-
+function wordQuestionValidator(answer) {
+    if (answer.answer.hasOwnProperty('value')) {
+        if (typeof(answer.answer.value) === 'string') {
+            return true;
+        }
+    }
+    return false;
+}
 module.exports = router;
