@@ -178,7 +178,7 @@ function calculateAssignmentMark(assignmentAnswer, correctAnswer) {
             return correctAnswer.answer.value === assignmentAnswer.answer.value ? 1.0 : 0.0;
 
         case 'word-question':
-        if (!numberQuestionValidator(assignmentAnswer)) {
+        if (!wordQuestionValidator(assignmentAnswer)) {
             console.log(`Assignment #${assignmentAnswer._id} didn't pass validation`);
             return -1;
         }
