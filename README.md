@@ -124,6 +124,18 @@ Backend for Quiz app
     			{"value": "Rose"},
     			{"value": "Violet"}
     		]
-    	}
+    	},
+        {
+            "_id": "5baa602eb77e66267c991496",
+            "answer": {
+                "value": 6
+            }
+        },
+        {
+            "_id": "5baa613cb77e66267c991497",
+            "answer": {
+                "value": "FrIeNd"
+            }
+        }
     ]
     ```
