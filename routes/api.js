@@ -114,6 +114,14 @@ Schema:
         {
             value: string
         }
+    interval-question:
+        {
+            value: {
+                from: number,
+                to: number,
+                allowedError: number
+            }
+        }
 */
 function calculateAssignmentMark(assignmentAnswer, correctAnswer) {
     switch (correctAnswer.type) {
@@ -167,8 +175,8 @@ function calculateAssignmentMark(assignmentAnswer, correctAnswer) {
                 }
             });
 
-            const mark = (trueSelected / trueTotal) * (1 - (falseSelected / falseTotal));
-            return mark;
+            return (trueSelected / trueTotal) * (1 - (falseSelected / falseTotal));
+
 
         case 'number-question':
             if (!numberQuestionValidator(assignmentAnswer)) {
@@ -183,7 +191,45 @@ function calculateAssignmentMark(assignmentAnswer, correctAnswer) {
             return -1;
         }
         return correctAnswer.answer.value.toLowerCase() === assignmentAnswer.answer.value.toLowerCase() ? 1.0 : 0.0;
-            
+
+        case 'interval-question':
+            if (!intervalQuestionValidator(assignmentAnswer)) {
+                console.log(`Assignment #${assignmentAnswer._id} didn't pass validation`);
+                return -1;
+            }
+
+            const length = (x1, x2) => x2 - x1;
+
+            if ((assignmentAnswer.answer.value.from < correctAnswer.answer.value.from &&
+                assignmentAnswer.answer.value.to < correctAnswer.answer.value.from) ||
+                (assignmentAnswer.answer.value.from > correctAnswer.answer.value.to &&
+                    assignmentAnswer.answer.value.to > correctAnswer.answer.value.to)) {
+                return 0.0;
+            }
+
+            let from;
+            let to;
+            // Ascending
+            if (correctAnswer.answer.value.from < correctAnswer.answer.value.to) {
+                from = assignmentAnswer.answer.value.from <= correctAnswer.answer.value.from ?
+                    correctAnswer.answer.value.from : assignmentAnswer.answer.value.from;
+                to = assignmentAnswer.answer.value.to < correctAnswer.answer.value.to ?
+                    assignmentAnswer.answer.value.to : correctAnswer.answer.value.to;
+            }
+            // Descending
+            else {
+                from = assignmentAnswer.answer.value.from > correctAnswer.answer.value.from ?
+                    correctAnswer.answer.value.from : assignmentAnswer.answer.value.from;
+                to = assignmentAnswer.answer.value.to >= correctAnswer.answer.value.to ?
+                    assignmentAnswer.answer.value.to : correctAnswer.answer.value.to;
+            }
+
+            // 2 * L_overlapping / (L_correct + L_assignment)
+            const mark = 2 * length(from, to) / (length(correctAnswer.answer.value.from, correctAnswer.answer.value.to) +
+                length(assignmentAnswer.answer.value.from, assignmentAnswer.answer.value.to));
+
+            return mark >= correctAnswer.answer.value.allowedError ? mark : 0.0;
+
         default:
             console.log(`Unknown question type '${correctAnswer.type}'`);
             return -1
@@ -254,4 +300,15 @@ function wordQuestionValidator(answer) {
     }
     return false;
 }
+function intervalQuestionValidator(answer) {
+    if (answer.answer.hasOwnProperty('value')) {
+        if (answer.answer.value.hasOwnProperty('from') && answer.answer.value.hasOwnProperty('to')) {
+            if (typeof(answer.answer.value.from) === 'number' && typeof(answer.answer.value.to) === 'number') {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 module.exports = router;

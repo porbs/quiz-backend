@@ -89,6 +89,22 @@ Backend for Quiz app
             }
         }
         ```
+    * interval question type
+        ```json
+        {
+            "type": "interval-question",
+            "question": {
+                "value": "WWII period?"
+            },
+            "answer": {
+                "value": {
+                    "from": 1939,
+                    "to": 1945,
+                    "allowedError:": 1
+                }
+            }
+        }
+        ```
 * **GET** all tasks (documents without answers)
     ```
     GET <server uri>/api/tasks
@@ -135,6 +151,15 @@ Backend for Quiz app
             "_id": "5baa613cb77e66267c991497",
             "answer": {
                 "value": "FrIeNd"
+            }
+        },
+        {
+            "_id": "5baa7f145e8aa93350a34bc6",
+            "answer": {
+                "value": {
+                    "from": 1939,
+                    "to": 1947
+                }
             }
         }
     ]
