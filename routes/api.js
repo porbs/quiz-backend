@@ -198,7 +198,7 @@ function calculateAssignmentMark(assignmentAnswer, correctAnswer) {
                 return -1;
             }
 
-            const length = (x1, x2) => x2 - x1;
+            const length = (x1, x2) => Math.abs(x2 - x1);
 
             if ((assignmentAnswer.answer.value.from < correctAnswer.answer.value.from &&
                 assignmentAnswer.answer.value.to < correctAnswer.answer.value.from) ||

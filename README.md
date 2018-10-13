@@ -100,7 +100,7 @@ Backend for Quiz app
                 "value": {
                     "from": 1939,
                     "to": 1945,
-                    "allowedError:": 1
+                    "allowedError": 1
                 }
             }
         }
